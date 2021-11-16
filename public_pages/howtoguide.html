@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="css/stylesheet.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+
+    <title>Getting started using Python with Blender</title>
+</head>
+
+
+
+<body class="container col-lg-8">
+    
+    <header>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Getting started using Python with Blender</h1>
+                <p class="lead">How to Guide - Getting to grips with using Python with Blender, through creating and manipulating objects</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="row align-content-center">
+        <div class="col-12">
+            <a class="bannerButton" href="index.html">
+                <p>
+                    <svg class="bi bi-chevron-left" width="2em" height="2em" viewBox="0 0 16 18" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 010 .708L5.707 8l5.647 5.646a.5.5 0 01-.708.708l-6-6a.5.5 0 010-.708l6-6a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                    </svg>
+                    Return back to landing page
+                </p>
+            </a>
+        </div>
+    </nav>
+    <!-- Precursor -->
+    <section class="row">
+        <div class="col-12">
+            <h3>What does this cover?</h3>
+            <h3>Contents</h3>
+            <ul>
+                <li>Introduction</li>
+                <ul>
+                    <li>Who's this guide for?</li>
+                    <li>Prerequisites</li>
+                    <li>What is Blender?</li>
+                    <li>But what's so special about verison 2.80?</li>
+                </ul>
+                <li>Navigation / UI</li>
+                <ul>
+                    <li>So, Where do we Start?</li>
+                    <li>Which parts will we be focusing on?</li>
+                    <ul>
+                        <li>Text Editor</li>
+                        <li>Python Console</li>
+                        <li>Info Editor</li>
+                    </ul>
+                </ul>
+                <li>Operating Blender</li>
+                <ul>
+                    <li>What are Blender objects made of?</li>
+                    <li>And how do we interact with them?</li>
+                </ul>
+                <li>Creating a Cube with Python</li>
+                <li>Going forward from here...</li>
+                <li>Extra Points of Interest</li>
+                <ul>
+                    <li>System Console in Blender</li>
+                    <li>Command Line Blender</li>
+                    <li>Collections in Blender</li>
+                    <li>Bmesh = byp.ops?</li>
+                    <li>Interesting links to run your eyes over / Further Reading and Examples</li>
+                </ul>
+            </ul>
+        </div>
+    </section>
+    <hr />
+
+    <!-- Introduction -->
+    <section class="row">
+        <div class="col-12">
+            <h1>Introduction</h1>
+        </div>
+        <div class="col-12">
+            <h3>Who's this guide for?</h3>
+            <p>This guide is for people who are interested in learning how to tinker with Blender using the Python Programming Language
+            as well as being able to automatically generate objects and renders of objects that will be exported to the file system.</p>
+            
+            <p>Throughout this tutorial there will be small areas for you to stop and tinker with the code and areas with code snippets
+            will be provided for you to copy-paste into your own editor and play about with. This is so that as you go through the
+            tutorial, you also get an idea of how each line interacts with the editor and to make the experience of scripting
+            Blender more encouraging outside this guide.</p>
+        </div>
+        <div class="col-12">
+            <h3>Prerequisites</h3>
+            <p>In order to get the best out of this, you will need…</p>
+            <ul>
+                <li>Blender (Version: 2.81a or later) <a class="btn btn-secondary btn-sm" href="https://www.blender.org/download/">Get the latest version here...</a></li>
+                <li>Some Python experience (Not loads needed as most concepts will be explained in the article)</li>
+                <li><strong>Not required</strong> but I highly recommend using a mouse over a trackpad</li>
+            </ul>
+            <p>Most of the concepts in Blender will be given a brief explanation and then extra reading will be provided through links directly to the documentation or other sources.</p>
+        </div>
+        <div class="col-12">
+            <h3>What is Blender?</h3>
+            <p>As it's described on the website...</p>
+            <blockquote class="blockquote sidemarker col-12">
+                <p class="mb-0">Blender is the free and open source 3D creation suite. It supports the entirety of the 3D
+                    pipeline — modeling, rigging, animation, simulation, rendering, compositing and motion tracking, video
+                    editing and 2D animation pipeline.</p>
+                <footer class="blockquote-footer">Blender3D Website</footer>
+            </blockquote>
+            <p>And alongside Blender is the scripting API which allows for most functionality to be replicated through the use
+                of Python code. However, there are a few limitations but they aren’t usually hit unless you delve quite deep
+                into the Blender environment.</p>
+        </div>
+        <div class="col-12">
+            <h3>But what's so special about verison 2.80?</h3>
+            <p>Good question! I had the same reaction.</p>
+            <p>Turns out with version 2.80, they introduced quite a few features which were a game-changer as a whole. But more
+                specifically, with the release from 2.80 onwards there’s been a new redesigned user interface which will mean
+                that part of the guide will not be applicable with the previous versions. If you're interested, click <a
+                    href="https://wiki.blender.org/wiki/Reference/Release_Notes/2.80">here</a> for the changelog.</p>
+        
+            <p>2.81a/2.82a in itself does contain quite a few nice updates too but the purpose and explanation fo each component
+                is out of the scope of this guide.</p>
+        
+            <p>And more importantly, keep your software updated!</p>
+        </div>
+    </section>
+    <hr />
+
+    <!-- Navigation and UI -->
+    <section class="row">
+        <div class="col-12">
+            <h1>Navigation / UI</h1>
+        </div>
+        <div class="col-12 col-lg-6">
+            <h3>So, Where do we Start?</h3>
+            <p>With Blender having a new redesign, I think there’s a good reason for a quick walkthrough about the interface as well as
+            the scripting tools.</p>
+            <p>When you open the application for the first time, you will be presented with an introductory window.</p>
+            <p>For now we will just create a new file by clicking the ‘General’ option on the splashscreen.</p>
+        </div>
+        <div class="col-12 col-lg-6">
+            <figure class="figure col-12">
+                <img src="res/BlenderInterface.png" alt="Blender3D interface and introductery splash screen" />
+                <figcaption class="figure-caption">Blender3D interface and introductery splash screen.</figcaption>
+            </figure>
+        </div>
+        <div class="col-12 col-lg-6">
+            <p>The interface as a whole is very packed, but each feature has it's own place. The following video is from the Blender Foundation where they some of the nooks and crannys of the Blender interface (as it would be very lengthy and obsure to cram about 30 screenshots and captions when a great video already exists).</p>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe src="https://www.youtube.com/embed/8XyIYRW_2xk" frameborder="0" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="col-12">
+            <h3>Which parts will we be focusing on?</h3>
+            <p>The thing that we will primarily look at though are the tools that come with Blender in order to allow us to script everything. The three primary tools are…</p>
+            <ul>
+                <li>Text editor</li>
+                <li>Python console</li>
+                <li>Info editor</li>
+            </ul>
+        </div>
+        <div class="col-12">
+            <h3>Text Editor</h3>
+            <p>The text editor is where we will spend most of the time during this guide with the different code snippets and scripts.</p>
+            <p>Put simply, it’s acts just like a normal text editor but allows you to natively run Python scripts in Blender.</p>
+            <figure class="figure col-12 col-lg-5">
+                <img src="res/TextEditor.png" alt="Blender3D Text Editor" />
+                <figcaption class="figure-caption">Blender3D Text Editor</figcaption>
+            </figure>
+            <p>Further Reading from the Blender documentation can be found <a href="https://docs.blender.org/manual/en/latest/editors/text_editor.html">here</a>.</p>
+            <samll class="text-muted">Note: You can run Python Scripts without needing to open Blender. If you’re interested, further reading is contained at the bottom of the document.</small>
+        </div>
+        <div class="col-12">
+            <h3>Python Console</h3>
+            <p>The python console that is built into Blender is your usual, bog-standard REPL shell that will immediately evaluate code when you hit return.</p>
+            <figure class="figure col-12 col-lg-5">
+                <img src="res/PythonConsole.png" alt="Blender3D Python Console" />
+                <figcaption class="figure-caption">Blender3D Python Console</figcaption>
+            </figure>
+            <p>A nice feature too is the autocomplete functionality which displays all of the available commands relative to what’s currently typed into the prompt. The keyboard shortcut for this is <kbd>CTRL</kbd> + <kbd>Spacebar</kbd>.</p>
+            <figure class="figure col-8 col-lg-3">
+                <img src="res/PythonConsole2.png" alt="Example for Python Console autocomplete" />
+                <figcaption class="figure-caption">Example for Python Console autocomplete</figcaption>
+            </figure>
+            <p>Further Reading from the Blender documentation can be found <a href="https://docs.blender.org/manual/en/latest/editors/python_console.html">here</a>.</p>
+            <samll class="text-muted">Note: If you’re having problems with trying to execute and debug problems to do with your scripts, further reading is contained at the bottom of the document.</small>
+        </div>
+        <div class="col-12">
+            <h3>Info Editor</h3>
+            <p>The Info Editor is an area where all commands that are done in the Blender environment are transformed into raw Python commands (as Blender is built with Python), and in turn can be a great place to find new commands and view any errors/warning that may appear when executing your scripts.</p>
+            <figure class="figure col-12 col-lg-5">
+                <img src="res/InfoEditor.png" alt="Blender3D Info Editor" />
+                <figcaption class="figure-caption">Blender3D Info Editor</figcaption>
+            </figure>
+            <p>This is quite useful for times when you need to check if specific commands work or for any debugging issues (but primarily testing small chunks of code that are then used in a larger script)</p>
+            <p>Further Reading from the Blender documentation can be found <a href="https://docs.blender.org/manual/en/latest/editors/info_editor.html">here</a>.</p>
+            <samll class="text-muted">Note: Not all commands work by copy-pasting from the Info Editor. Some are specifically related to the cursor, and in
+            turn will throw an error if you attempt to run them in a script!</small>
+        </div>
+    </section>
+    <hr />
+
+    <!-- Using and Operating Blender -->
+    <section class="row">
+        <div class="col-12">
+            <h1>Operating Blender</h1>
+        </div>
+        <div class="col-12">
+            <h3>What are Blender objects made of?</h3>
+            <p>Every part of Blender is built off of a base unit called a data-block, which is described in the documentation as…</p>
+            <blockquote class="blockquote sidemarker col-12">
+                <p class="mb-0">“A data-block is a generic abstraction of very different kinds of data, which features a common set of basic features, properties and behaviors.”</p>
+                <footer class="blockquote-footer">Blender3D Documentation</footer>
+            </blockquote>
+            <p>That’s great and all but didn’t mean much to me, which is why I found it easier to think of some examples of data-objects including...</p>
+            <ul>
+                <li>Meshes</li>
+                <li>Objects</li>
+                <li>Materials</li>
+                <li>Textures</li>
+                <li>and more...</li>
+            </ul>
+        </div>
+        <div class="col-12">
+            <h3>And how do we interact with them?</h3>
+            <p>Let's start by getting to know where we are now.</p>
+            <p>Currently we have basic scene with one cube, a camera and a light source. We can prove that by going to the Python Shell and putting in the following command...</p>
+            <pre><code>
+>>> <strong>bpy.data.objects</strong>
+&lt;bpy_collection[3], BlendDataObjects&gt;
+            </code></pre>
+            <p>Now, to list the actual objects in the scene we just use the <code>list</code> function to display all the objects of type <code>BlendDataObjects</code>.</p>
+            <pre><code>
+>>> <strong>list(bpy.data.objects)</strong>
+[bpy.data.objects['Camera'], bpy.data.objects['Cube'], bpy.data.objects['Light']]
+            </code></pre>
+            <p>Now at this point, we could delve in to each of the objects and then tinker with each individual setting, however that is far beyond this tutorial. But <em>you do still have access to that keyboard hotkey</em> <kbd>CTRL</kbd> + <kbd>Spacebar</kbd> at any point to look at all of the potential options.</p>
+
+            <p>Also, with `bpy.data.objects` we can reference the cube using either...</p>
+            <ol>
+                <li><code>bpy.data.objects['Cube']</code> using it's identifier</li>
+                or
+                <li><code>bpy.data.objects[0]</code> using it's index</li>
+            </ol>
+            <p>And assign the cube to a variable that is more user friendly and easier to understand.For now though, let's redirect out attention the guts of what we did. Using <code>bpy.data.objects</code>, we are able to access all of the internal data that is in Blender (Well, more specifically our current .blend file). But with this we can do quite a lot, as you will see later on in the tutorial.</p>
+
+            <p>There is also...</p>
+            <ul>
+                <li><code>bpy.context</code> - Context Access</li>
+                <li><code>bpy.ops</code> - Operators</li>
+                <li><code>bpy.types</code> - Types</li>
+                <li><code>bpy.utils</code> - Utilities</li>
+                <li><code>bpy.props</code> - Property definitions</li>
+                <li>and more...</li>
+            </ul>
+            <p>Each with their own discrete areas of what they handle, it's very confusing trying to work out what does which without much background experience.</p>
+
+            <h4>So what now?</h4>
+            <p>Now let's create a cube! To make this as easy as possible, we'll delete every object in our scene using the following commands in the Python Shell...</p>
+            <pre><code>
+>>> <strong>bpy.ops.object.select_all(action='SELECT')</strong>
+{'FINISHED'}
+
+>>> <strong>bpy.ops.object.delete()</strong>
+Info: Deleted 3 object(s)
+{'FINISHED'}
+            </code></pre>
+            <p>And that should be our scene cleared.</p>
+        </div>
+    </section>
+    <hr />
+
+    <!-- Creating a Cube in Blender -->
+    <section class="row">
+        <div class="col-12">
+            <h1>Creating a Cube with Python</h1>
+        </div>
+        <div class="col-12">
+            <p>To create the cube, we will be using <code>bmesh</code> which is the computer/scripting version of the mesh creating, manipulating and geometry operators, as opposed to the <code>bpy.ops</code> API which is used for user interface control.</p>
+        </div>
+        <div class="col-12 col-lg-6">
+            <p>Step 1 - To start, we'll import bmesh for our geometry and bpy for interacting with Blender</p>
+        </div>
+        <div class="col-12 col-lg-6">
+            <pre><code>
+import bpy
+import bmesh
+            </code></pre>
+        </div>
+        <div class="col-12 col-lg-6">
+            <p>Step 2 - Then we need to create our own instance of geometry by creating a new bmesh object. <em>Basically, new object geometry = new bmesh</em></p>
+        </div>
+        <div class="col-12 col-lg-6">
+        <pre><code>
+bm = bmesh.new()
+        </code></pre>
+        </div>
+        <div class="col-12 col-lg-6">
+            <p>Step 3 - And as well as that, let's throw in our mesh and object instances for later</p>
+        </div>
+        <div class="col-12 col-lg-6">
+        <pre><code>
+mesh = bpy.data.meshes.new('my_cube_mesh')
+obj = bpy.data.objects.new('my_cube_object', mesh)
+        </code></pre>
+        </div>
+        <div class="col-12 col-lg-6">
+            <p>Step 4 - Let's use bmesh to create a new cube and assign the geometry to our bmesh object</p>
+        </div>
+        <div class="col-12 col-lg-6">
+        <pre><code>
+bmesh.ops.create_cube(bm)
+        </code></pre>
+        </div>
+        <div class="col-12 highlight">
+            <p>Note: At this point we could work with the cube and start adding new points or creating new faces/edges or something.
+            Unfortunately this tutorial will not be doing that but at the bottom there will be some extra reading on how to work
+            more closely with BMesh.</p>
+        </div>
+        <div class="col-12 col-lg-6">
+            <p>Step 5 - And now we'll pass the geometry to our original mesh</p>
+        </div>
+        <div class="col-12 col-lg-6">
+        <pre><code>
+bm.to_mesh(mesh)
+        </code></pre>
+        </div>
+        <div class="col-12 col-lg-6">
+            <p>Step 6 - And release/dispose the object</p>
+        </div>
+        <div class="col-12 col-lg-6">
+        <pre><code>
+bm.free()
+        </code></pre>
+        </div>
+        <div class="col-12 highlight">
+            <p>Now, you might ask...</p>
+            <p>
+                "<em>But why did we have to use BMesh when we created the geometry, is there another way?</em>" or "<em>I heard that <code>bpy.ops</code> can do the same thing with <code>primitive_cube_add</code>??</em>"
+            </p>
+            <p>
+                Well, first of all... no BUT yes, but also no... There's a section at the bottom of the document covering this. Hopefully that will help clear things up.
+            </p>
+        </div>
+        <div class="col-12 col-lg-6">
+            <p>Step 7 - Don't worry, we're still not finished. But as the mesh is ready, all we need to link it to the object</p>
+        </div>
+        <div class="col-12 col-lg-6">
+        <pre><code>
+bpy.context.scene.collection.objects.link(obj)
+        </code></pre>
+        </div>
+        <div class="col-12">
+            <p>And that's it. Now to run it, click the <code>Run Script</code> button in the top right hand corner and you should end up with a cube in the scene!</p>
+            <p>So in total, to create a cube/any object you need to...</p>
+            <ol>
+                <li>Use bmesh to create the geometry of the mesh</li>
+                <li>Create a mesh and assign it to the geometry</li>
+                <li>Contain everything in an object which can be viewed in the scene</li>
+            </ol>
+        </div>
+        <div class="col-12">
+            <p>Also, here's the complete script, just if you wanted to speed through the tutorial. All the code is explained above</p>
+            <pre><code>
+import bpy
+import bmesh
+bm = bmesh.new()
+mesh = bpy.data.meshes.new('my_cube_mesh')
+obj = bpy.data.objects.new('my_cube_object', mesh)
+bmesh.ops.create_cube(bm)
+bm.to_mesh(mesh)
+bm.free()
+bpy.context.scene.collection.objects.link(obj)
+            </code></pre>
+        </div>
+    </section>
+    <hr />
+
+    <!-- Going Forwards from the tutorial -->
+    <section class="row">
+        <div class="col-12">
+            <h1>Going forward from here...</h1>
+            <p>Now that you have gotten your feet wet, why not tinker about with using the camera and or lights?</p>
+            
+            <p>To render an image you need</p>
+            <ul>
+                <li>A light source (To make the object visible)</li>
+                <li>An object (To render)</li>
+                <li>A camera (To capture the image with)</li>
+            </ul>
+            <p>You can find exmaple snippets on <a href="snippetexamples.html">this page</a> and jigsaw them together to end up with a render-ready scene</p>
+
+        </div>
+    </section>
+    <hr />
+
+    <!-- Extra Content -->
+    <section class="row">
+        <div class="col-12"><h1>Extra Points of Interest</h1></div>
+    </section>
+
+    <!-- Blender System Console -->
+    <section class="row">
+        <div class="col-12">
+            <h3>System Console in Blender</h3>
+            <p>You’ve just tried to execute something and Blender isn’t happy. The only thing it will tell you to do is to check the system console... Not very helpful</p>
+            <figure class="figure col-12 col-lg-8">
+                <img src="res/FailScript.png" alt="Blender Python error" />
+                <figcaption class="figure-caption">Blender Python error</figcaption>
+            </figure>
+            <p>There are generally two ways that you can access the system console depending on your os...</p>
+            <ul>
+                <li><strong>Windows</strong> - Go to Window > Toggle System Console and that should do the trick.</li>
+                <li><strong>macOS</strong> - You'll need to run Blender from the command line (Oh would you look at that that's covered in the next section).</li>
+            </ul>
+        </div>
+    </section>
+    <hr />
+
+    <!-- Command Line Blender -->
+    <section class="row">
+        <div class="col-12">
+            <h3>Command Line Blender</h3>
+            <p>For some versions of Blender you will need to debug Python scripts from the command line or you may just want to run a script in Blender form the command line without opening Blender. Here's how to do that...</p>
+            <ul>
+                <li><a href="https://docs.blender.org/manual/en/dev/advanced/command_line/launch/windows.html">Windows Guide</a></li>
+                <li><a href="https://docs.blender.org/manual/en/dev/advanced/command_line/launch/macos.html"">macOS Guide</a></li>
+                <li><a href="https://docs.blender.org/manual/en/dev/advanced/command_line/arguments.html">Corresponding command line arugments that you can use alongside (including running python files)</a></li>
+                <li><a href="https://docs.blender.org/manual/en/dev/advanced/command_line/render.html">Rendering from the command line using a blend file</a></li>
+            </ul>
+        </div>
+    </section>
+    <hr />
+
+    <!-- Collections in Blender -->
+    <section class="row">
+        <div class="col-12 col-lg-6">
+            <h3>Collections in Blender</h3>
+            <p><strong>What are they and why use them?</strong> Collections are very similar to groups. They can be used for organisation sets of objects or filtering certain objects in the viewfinder/rendering process. Collections in Blender 2.8 are useful because they are now used to link and manipulate sets or indivitual objects (Prior versions of blender used to use bpy.context.scene).</p>
+            <p>An example piece of code that you would use collections in to link a new object (And they have been used throughout the tutorial!).</p>
+            <pre><code>
+bpy.data.<strong>collections[1]</strong>.objects.link(bpy.data.objects['ObjectName'])
+            </code></pre>
+            <p>Here's a video that gives a good overview of collections in Blender.</p>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe src="https://www.youtube.com/embed/u_yIGGhubZs" frameborder="0" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+    <hr />
+
+    <!-- BMesh vs Bpy.ops -->
+    <section class="row">
+        <div class="col-12">
+            <h3>Bmesh = byp.ops?</h3>
+            <h5>Do they do the same thing???</h5>
+            <figure class="figure col-8 col-lg-4">
+                <img src="res/WellYesButActuallyNo.jpg" alt="Well yes, but actually no" />
+                <figcaption class="figure-caption">Well yes, but actually no</figcaption>
+            </figure>
+            <p>I'm not the best at explaining it, so here's a few points from forums around the internet.</p>
+            <ul>
+                <li>"Operators are tools generally accessed by the user from buttons, menu items or key shortcuts. From the user perspective they are a tool but Python can run these with its own settings through the bpy.ops module."</li>
+                <li>"In general, do research if there is another way that you can do a specific action without byp.ops. However in some cases, <code>bpy.ops</code> can be indispendable."</li>
+                <li>"They're slow as the scene is updated every time that you actually access it." and "Contextual, operators depend on the context, for example what object is currently selected"</li>
+            </ul>
+            <p>And in my own experience, they can be quite performance draining when working with a large number of objects.</p>
+            <p><strong>TL;DR Operators are for users, BMesh is for scripts</strong></p>
+        </div>
+    </section>
+    <hr />
+
+    <!-- Interesting links and further reading -->
+    <section class="row">
+        <div class="col-12">
+            <h3>Interesting links to run your eyes over / Further Reading and Examples</h3>
+            <ul>
+                <li><a href="http://wiki.theprovingground.org/blender-python">Contains quite a few examples but not all code is compatible for the latest version of Blender (V2.80+)</a></li>
+                <li><a href="https://www.mertl-research.at/ceonwiki/doku.php?id=software:kicad:3d_package_with_blender">Nice overview for using Blender Scripting too and covers how to extrude/cut objects together</a></li>
+                <li><a href="https://blender.stackexchange.com/questions/414/how-to-use-bmesh-to-add-verts-faces-and-edges-to-existing-geometry">Building objects from individual points using BMesh example and discussion</a></li>
+                <li><a href="https://blender.stackexchange.com/questions/7358/python-performance-with-blender-operators">Peformance discussion using Blender Operators</a></li>
+                <li><a href="https://blender.stackexchange.com/questions/75223/finding-vertices-in-a-vertex-group-using-blenders-python-api/75240#75240">Performance for selecting geometry of a specific object</a></li>
+                <li><a href="https://blender.stackexchange.com/questions/2848/why-avoid-bpy-ops?answertab=votes#tab-top">Considerations for bpy.ops</a></li>
+                <li><a href="https://blender.stackexchange.com/questions/120517/rendering-a-cube-as-png-file-using-blenders-python-api">Very useful quick post on creating and setting up a scene (similar to this)</a></li>
+                <li><a href="https://blender.stackexchange.com/questions/2848/why-avoid-bpy-ops">More considerations for bpy.ops</a></li>
+            </ul>
+        </div>
+    </section>
+</body>
+</html>

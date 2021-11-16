@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="css/stylesheet.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+
+    <title>Obspec, Automated Object Classication and Retraining</title>
+</head>
+
+
+
+<body class="container col-lg-8">
+    
+    <header>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Obspec, Automated Object Classication and Retraining</h1>
+                <p class="lead">A conceptual process for applying PyTorch to automatically recognise photorealistic 3D renders from Blender with automatic model retraining and learning. Automated using Python.</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="row align-content-center">
+        <div class="col-12">
+            <a class="bannerButton" href="index.html">
+                <p>
+                    <svg class="bi bi-chevron-left" width="2em" height="2em" viewBox="0 0 16 18" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 010 .708L5.707 8l5.647 5.646a.5.5 0 01-.708.708l-6-6a.5.5 0 010-.708l6-6a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                    </svg>
+                    Return back to landing page
+                </p>
+            </a>
+        </div>
+    </nav>
+    <!-- Precursor -->
+    <section class="row">
+        <div class="col-12">
+            <p>As part of one of my University Modules, I was tasked in creating a new plausible and straightforward system for for being able to train Machine Learning Models to recognise photo-realistic renders of models to be able to recognise them in the real world.</p>
+        </div>
+    </section>
+    <hr />
+    <!-- Project Overview -->
+    <section class="row">
+        <div class="col-12">
+            <h1>Project Overview</h1>
+        </div>
+        <div class="col-12">
+            <h3>Purpose of project</h3>
+            <p>The final end goal would be to automate the entire process from having an object that would be 3D modelled, rendered into a set of images that would train a Machine Learning Model, that would then recognise real world instances of those objects.</p>
+            <figure class="figure col-8 col-lg-4">
+                <img src="res/Flow.png" alt="High-level vision of project's processes" />
+                <figcaption class="figure-caption">High-level vision of project's processes</figcaption>
+            </figure>
+        </div>
+        <div class="col-12">
+            <h3>Where will all this training data come from?</h3>
+            <p>You would have two sets of training data.</p>
+            <ul>
+                <li><strong>Original</strong> - The original sets of images/renders that would be used to train the model</li>
+                <li><strong>Incremental</strong> - The images captures from a camera device when analysing a specific object</li>
+            </ul>
+            <p>As all of the models are trained on 3D renders or images, you are able to acquire training data from various sites used for similar projects...</p>
+            <p>Original Training Data</p>
+            <ul>
+                <li>3D Modelling</li>
+                <ul>
+                    <li>Thingiverse – <a href="https://www.thingiverse.com">https://www.thingiverse.com</a></li>
+                    <li>GrabCAD – <a href="https://grabcad.com">https://grabcad.com</a></li>
+                    <li>My Mini Factory – <a href="https://www.myminifactory.com">https://www.myminifactory.com</a></li>
+                    <li>SketchFab – <a href="https://sketchfab.com">https://sketchfab.com</a></li>
+                </ul>
+                <li>Modelling from 2D images</li>
+                <li>Manually modelling in Blender</li>
+                <li>Building simple models from scratch and using them directly with the process and scripts.</li>
+                <ul>
+                    <li>This can be done by following tutorials from YouTubers like <a href="https://www.youtube.com/channel/UCOKHwx1VCdgnxwbjyb9Iu1g">BlenderGuru</a></li>
+                </ul>
+            </ul>
+            <p>Incremental Training Data however would be gathered whilst the system is live, in order to be able to train the system using real/live data.</p>
+        </div>
+        <div class="col-12">
+            <h3>Example Use Cases for this Project</h3>
+            <p>This project could be useful in many environments, from automated room inventory and logging of the movement of items, to being used in suprtmarkets to either remove or assist in the use of barcode and to increase accuracy of scanning. A pretrained model could also be used in an attempt to find and report stolen goods from surveillance footage (of a certain quality) or track the items a person has come into contact with.</p>
+            <h5>Theoretical Setup</h5>
+            <p>The project would require substantial setup for being able to process a high volume of images but it would be achievable through the use of a Master-Slave hierarchy.</p>
+            <ul>
+                <li>Masters would need to be high performance and capable machines that have access to a high volume of pretrained models which it can use to compare and analyse captured images from he slaves.</li>
+                <li>Slaves would need to be low performance, inexpensive computers with a camera or other visual capture device which can connect to the master computer and feed images to the master whilst also being able to report to the end user whether the image was successfully scanned or not (either by a simple green/red LED representing success/failure and/or a display of some sort giving feedback on the item that was scanned).</li>
+                <li>Also a high capacity database or some sort of indexed storage device would need to be used in order to store both the original images/training data as well as being able to store new images that would be used for training/testing whilst the master computer is in operation.</li>
+            </ul>
+            <figure class="figure col-12 col-lg-8">
+                <img src="res/ProcessHierarchy.png" alt="Process Hierarchy" />
+                <figcaption class="figure-caption">Process Hierarchy</figcaption>
+            </figure>
+            <figure class="figure col-12 col-lg-8">
+                <img src="res/ProcessFlowChart.png" alt="Process Flow Chart" />
+                <figcaption class="figure-caption">Process Flow Chart</figcaption>
+            </figure>
+        </div>
+    </section>
+    <hr />
+    <section class="row">
+        <div class="col-12">
+            <h3>Current Research into Project Execution</h3>
+            <p>Unfortunately <strong>this project was not able to be completed</strong>. But some useful information for achieving this project was found.</p>
+            
+            
+            
+            <h5>Converting 2D images into a 3D model</h5>
+            <p>A practical example of how the training process could take place would be through using Alicevision Meshroom, a multiplatform application that allows for you to feed in images of a scene and the program will attempt to re-create the 3D depthmap, texturing and more, from what images you have provided.</p>
+            <ul>
+                <li>Alicevision – <a href="https://alicevision.org">https://alicevision.org</a></li>
+                <li>Meshroom – <a href="https://alicevision.org/#meshroom">https://alicevision.org/#meshroom</a></li>
+            </ul>
+
+            <p>In theory, the successful pictures that were taken whilst the system is live and tagged as being successfully matched to a model would be used in retraining the model to be more accurate and then the photos that were not successfully matched (and in turn may needs to be manually tagged/matched) would be used as testing data to ensure the model is able to accurately recognise the object, and any variations in question.</p>
+
+            <p><em><a href="http://filmicworlds.com/blog/command-line-photogrammetry-with-alicevision/">An example process of using Meshroom and Alicevision from the command line</a></em></p>
+
+            <h5>Capturing Training Data</h5>
+            <p>Through the use of creating a 3D model of the object, you are able to re-create images and be able to create new angles of the exisitng object but syntetically and without needing to use the original object in question.</p>
+            <p>This would be done through an application called Blender3D which is an open source 3D modelling and rendering application (It can do a lot more that that but that's all we'll be focusing on for this). Blender will take in the object and place it into it's scene at the origin. Then using Python scripts, you are able to automate most of the process of setting up a camera, setting up lighting and a path for the camera to take. At each point of the path, the camera would focus and point at the object and take a render before moving to the next point. </p>
+            <ul>
+                <li>Blender - <a href="https://www.blender.org">https://www.blender.org</a></li>
+            </ul>
+            <p>Once all points have been covered, you will have a set of synthetic training data for the Machine Learning Model.</p>
+
+
+            <h5>Machine Learning Model / Training</h5>
+            <p>For the machine learning aspect of the project, the use of PyTorch aslongside using the information gained from Fast.ai and it's respective courses would be the ideal route for training new and current models as well as being able to apply the models for object recognition and classification. </p>
+            <p>Fast.ai's course and library (which uses PyTorch in the background) is incredibly useful for the testing and production of models that could be applied in the real world as well as being able to accurately.</p>
+            <p>Systems such as YOLO (You Only Look Once) could be used in some cases as it's execution time and recognition speeds are very high and could work better in environments that require a high flow of items.</p>
+            <ul>
+                <li>Fast.ai - <a href="https://docs.fast.ai">https://docs.fast.ai</a></li>
+                <li>YOLO - <a href="https://pjreddie.com/darknet/yolo/">https://pjreddie.com/darknet/yolo/</a></li>
+            </ul>
+        </div>
+    </section>
+    <hr />
+    <section class="row">
+        <div class="col-12">
+            <p>But as the system was not able to be tested and trained/analysed. I cannot gauratee either of these two libraries will be the final one to use. However, they are a good indicator and good for trialing the overall process and being able to swap parts or the system/flow is more ideal (hence it's all in Python).</p>
+            <p>Hopefully this will be of some use to someone.</p>
+        </div>
+    </section>
+</body>
+</html>

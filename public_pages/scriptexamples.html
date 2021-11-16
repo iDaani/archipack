@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="css/stylesheet.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+
+    <title>Full Python Scripts for Blender/Renders</title>
+</head>
+
+
+
+<body class="container col-lg-8">
+    
+    <header>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Full Python Scripts for Blender/Renders</h1>
+            </div>
+        </div>
+    </header>
+
+    <nav class="row align-content-center">
+        <div class="col-12">
+            <a class="bannerButton" href="index.html">
+                <p>
+                    <svg class="bi bi-chevron-left" width="2em" height="2em" viewBox="0 0 16 18" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 010 .708L5.707 8l5.647 5.646a.5.5 0 01-.708.708l-6-6a.5.5 0 010-.708l6-6a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                    </svg>
+                    Return back to landing page
+                </p>
+            </a>
+        </div>
+    </nav>
+    <section class="row">
+        <div class="col-12">
+            <h3>Capture the surroundings of an object</h3>
+            <p><strong>Original purpose of script</strong> - To be able to automate the capturing and rendering of 3D objects via Blender for Machine
+            Learing training. The ideal situation would be a Python script looping through a set of blender-compatible objects,
+            importing them, then running this script all from the command line to be able to mass/volume render test or training
+            data/images.</p>
+            <br />
+            <p>What this script does...</p>
+            <ol>
+                <li>Creates a new object</li>
+                <li>Creates a mesh (either of type UVSphere or ICOSphere, depends on user's choice)</li>
+                <li>Creates a new light source</li>
+                <li>Creates a new camera</li>
+                <li>Sets the newly created camera as the default scene rendering camera</li>
+                <li>Selects the Cycles rending engine</li>
+                <li>Adds a location tracking constraint to the camera to focus on the origin at any angle</li>
+                <li>Hide all the objects from being included in the render</li>
+                <li>Loops through each of the verticies contained in the original mech of UVSphere/ICOSphere and renders PNG image of origin from that location</li>
+                <li>Clears and destroys the objects created in this script</li>
+            </ol>
+            <pre><code>
+import bpy
+import bmesh
+import mathutils
+import os
+import datetime
+
+# Local use variables
+objects = bpy.data.objects
+scene = bpy.context.scene
+
+sphere_radius = 2
+
+create_uvsphere = True
+uvsphere_number_of_segments = 3
+uvsphere_number_of_rings = 3
+
+# Number of subdivisions is 
+create_icosphere = False
+icosphere_number_of_subdivsions = 1
+
+def create_new_pivot_at_origin():
+    pivot = bpy.data.objects.new( "Pivot", None )
+    pivot.location.x = 0
+    pivot.location.y = 0
+    pivot.location.z = 0
+    scene.collection.objects.link(pivot)
+    return pivot
+
+def delete(item):
+    bpy.data.objects[item].select_set(True)
+    bpy.ops.object.delete()
+
+mesh = bpy.data.meshes.new("RenderSphereMesh")
+obj = bpy.data.objects.new("RenderSphereObject", mesh)
+
+scene.collection.objects.link(obj) # Add new object to scene
+
+bm = bmesh.new() 
+
+if create_uvsphere:
+    bmesh.ops.create_uvsphere(bm, u_segments=uvsphere_number_of_segments, v_segments=uvsphere_number_of_rings, diameter=(2*sphere_radius)) 
+    # https://docs.blender.org/api/current/bmesh.ops.html?highlight=create_ico#bmesh.ops.create_icosphere
+elif create_icosphere:
+    bmesh.ops.create_icosphere(bm, uvsphere_number_of_segments, uvsphere_number_of_rings, 2*sphere_radius) 
+    # https://docs.blender.org/api/current/bmesh.ops.html?highlight=create_ico#bmesh.ops.create_uvsphere
+
+bm.to_mesh(mesh) # Convert to new mesh and then give it to our previous object
+bm.free() # Release the mesh
+
+# Create a light
+light_data = bpy.data.lights.new("light", type='POINT')
+light = bpy.data.objects.new("light", light_data)
+scene.collection.objects.link((light))
+light.location = mathutils.Vector((3, -4.2, 5))
+
+# Create the camera
+cam_data = bpy.data.cameras.new("camera")
+cam = bpy.data.objects.new("camera", cam_data)
+scene.collection.objects.link(cam)
+scene.camera = cam
+
+# Set the camera as the default rendering camera and set the render engine to Cycles engine (I've had the most sucess with it in the past)
+bpy.context.scene.camera = bpy.data.objects["camera"]
+bpy.context.scene.render.engine = 'CYCLES'
+
+# Add tracking constraint to camera for it to lock it's view to a specific point/vector
+ttc = cam.constraints.new(type='TRACK_TO')
+ttc.target = create_new_pivot_at_origin() # Can be changed to specific location to focus on. MUST BE OBJECT
+ttc.track_axis = 'TRACK_NEGATIVE_Z'
+ttc.up_axis = 'UP_Y'
+
+# Prevent the three newely created objects from being viewed in the render
+bpy.data.objects["camera"].hide_render = True
+bpy.data.objects["RenderSphereObject"].hide_render = True
+bpy.data.objects["Pivot"].hide_render = True
+
+
+obj_ref = bpy.data.scenes[0].objects["RenderSphereObject"]
+for vect in obj_ref.data.vertices:
+    # Set camera to current vertex location
+    cam.location = vect.co
+              
+    # Render settings
+    scene.render.image_settings.file_format = 'PNG'     
+    
+    # Have the filepath set as a unique name (the current timestamp for Y/M/D H:M:S as high precision)
+    filepath = ("~/Desktop/BlenderRender/output{}.png".format((str)(datetime.datetime.now().isoformat())))
+    scene.render.filepath = os.path.expanduser(filepath)
+    bpy.ops.render.render(write_still = 1)
+
+# Finally, clear up the scene to leave no footprint/lingering objects
+
+delete("camera")
+delete("RenderSphereObject")
+delete("Pivot")
+            </code></pre>
+        </div>
+    </section>
+    <hr />
+    <section class="row">
+        <div class="col-12">
+            <h3>Capture the surroundings of an object</h3>
+            <p><strong>Original purpose of script</strong> - Reads a set of images that are located in a folder and match a specific pattern/file type. Images that comply with the pattern are stored in a list and then looped through to create an animation.</p>
+            <p><strong>This script requires imageio library</strong> - GitHub repo can be found <a href="https://imageio.github.io">here</a>...</p>
+            <p>What this script does...</p>
+            <ul>
+                <li>Imports required libraries</li>
+                <li>Creates new empty list for images</li>
+                <li>Gets a list of files contained in the expanded file working directory (This example is set to a folder called "BlenderRender" saved on the desktop)</li>
+                <li>Creates a variable for filtering the files</li>
+                <li>For each loop sifting through each file</li>
+                <ul>
+                    <li>If the the selected file matches the pattern</li>
+                        <ul>
+                            <li>Append the resolved image (using imageio) to the list of images </li>
+                        </ul>
+                </ul>
+                <li>Set the argument of the gif to have each photo show up for 0.5 seconds</li>
+                <li>Generate a file of type gif, following the arguments given and composing of all of the images in the image list, then save it to the BlenderRender folder on the desktop calling it animation with a timestamp appended on the end of it</li>
+            </ul>
+            <pre><code>
+import os,fnmatch,imageio
+images = []
+
+listOfFiles = os.listdir(os.path.expanduser("~/Desktop/BlenderRender/"))
+pattern = "*.png"
+for entry in listOfFiles:
+    if fnmatch.fnmatch(entry, pattern):
+            images.append(imageio.imread(os.path.expanduser("~/Desktop/BlenderRender/") + entry))
+        
+kargs = { 'duration': 0.5 }
+imageio.mimsave("~/Desktop/BlenderRender/animation{}.gif".format((str)(datetime.datetime.now().isoformat())), images, "GIF", **kargs)
+            </code></pre>
+        </div>
+    </section>
+</body>
+</html>

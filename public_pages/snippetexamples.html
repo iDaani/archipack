@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="css/stylesheet.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+
+    <title>Example Python Snippets for Blender</title>
+</head>
+
+<body class="container col-lg-8">
+    
+    <header>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Example Python Snippets for Blender</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="row align-content-center">
+        <div class="col-12">
+            <a class="bannerButton" href="index.html">
+                <p>
+                    <svg class="bi bi-chevron-left" width="2em" height="2em" viewBox="0 0 16 18" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 010 .708L5.707 8l5.647 5.646a.5.5 0 01-.708.708l-6-6a.5.5 0 010-.708l6-6a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                    </svg>
+                    Return back to landing page
+                </p>
+            </a>
+        </div>
+    </nav>
+    <section class="row">
+        <div class="col-12">
+            <p>Included on this page are a set of scripts that were built throughout the course and were able to be built upon and used for the final project.</p>
+            <p>Each code snippet will have a brief description but will not go into much detail. <strong>All of these scripts require <code>bpy</code> to be imported to work!</strong></p>
+            <br />
+            <h3>Contents</h3>
+            <ul>
+                <li>Get a list of objects in current blend file</li>
+                <li>Delete all objects in the top-level collection</li>
+                <li>Looping through each co-ordinate/vertex/point of a specific object</li>
+                <li>Using the 3D Cursor</li>
+                <ul>
+                    <li>Get location</li>
+                    <li>Get rotation</li>
+                    <li>Set location/rotation</li>
+                </ul>
+                <li>Create a camera and set as default for rendering for scene</li>
+                <br />
+                <li>More Advanced Snippets</li>
+                <ul>
+                    <li>Render current view in Camera to file</li>
+                    <li>Create menu item in 3D Viewport's Header Region</li>
+                </ul>
+
+            </ul>
+        </div>
+    </section>
+    <hr />
+    <!-- Snippets -->
+    <section class="row">
+        <div class="col-12">
+            <h3>Get a list of objects in current blend file</h3>
+            <pre><code>
+list(bpy.data.objects)
+            </code></pre>
+            <p>or</p>
+            <pre><code>
+for obj in bpy.data.objects:
+    print(obj.name)
+            </code></pre>
+        </div>
+        <div class="col-12">
+            <h3>Delete all objects in the top-level collection</h3>
+            <p>You will need to adapt this to consider all objects as this only takes into account the top-level Scene collection.</p>
+            <pre><code>
+bpy.ops.object.select_all(action='SELECT')
+bpy.ops.object.delete()
+            </code></pre>
+        </div>
+        <div class="col-12">
+            <h3>Looping through each co-ordinate/vertex/point of a specific object</h3>
+            <pre><code>
+import bpy
+
+cube = bpy.data.objects["my_cube_object"]
+
+for x in cube.data.vertices:
+    print(x.co)
+            </code></pre>
+        </div>
+        <div class="col-12">
+            <h3>Using the 3D Cursor</h3>
+            <p>If you don't know what the 3D Cursor is, take a little peek at <a href="https://docs.blender.org/manual/en/latest/editors/3dview/3d_cursor.html"> the documentation here...</a></p>
+            <br />
+            <p>To get location (Returned as a Vector)</p>
+            <pre><code>
+bpy.context.scene.cursor.location
+            </code></pre>
+            <br />
+            <p>To get rotation (Returned as Euler)</p>
+            <pre><code>
+bpy.context.scene.cursor.rotation_euler
+            </code></pre>
+            <br />
+            <p>And you can set the values by just passing a value through, for example...</p>
+            <pre><code>
+bpy.context.scene.cursor.location = (2,2,2)
+bpy.context.scene.cursor.rotation_euler = (90,180,0)
+            </code></pre>
+        </div>
+        <div class="col-12">
+            <h3>Create a camera and set as default for rendering for scene</h3>
+            <pre><code>
+cam = bpy.data.cameras.new("Main_Camera")
+cam.lens = 18
+cam_obj = bpy.data.objects.new("Main_Camera", cam)
+cam_obj.location = (0,0,0)
+cam_obj.rotation_euler = (0,0,0)
+scene.collection.objects.link(cam_obj)
+bpy.context.scene.camera = bpy.data.objects["Main_Camera"]
+bpy.context.scene.render.engine = 'CYCLES'
+            </code></pre>
+        </div>
+        <div class="col-12">
+            <h3>Create a light source</h3>
+            <p><em>You can also use <code>mathutils</code> for positioning and rotation, more on that <a href="https://docs.blender.org/api/current/mathutils.html">here...</a></em></p>
+            <pre><code>
+light_data = bpy.data.lights.new('light', type='POINT')
+light = bpy.data.objects.new('light', light_data)
+bpy.context.scene.collection.objects.link(light)
+light.location = (0,0,0)
+            </code></pre>
+        </div>
+    </section>
+    <hr />
+    <!-- More Advanced Snippets -->
+    <section class="row">
+        <div class="col-12">
+            <h1>More Advanced Snippets</h1>
+            <p>Will require a bit more background in python to tinker with.</p>
+        </div>
+        <div class="col-12">
+            <h3>Render current view in Camera to file</h3>
+            <p><em>Requires camera to already be created and set as scene's default!</em></p>
+            <pre><code>
+import os
+import bpy
+import datetime
+
+scene = bpy.context.scene
+
+# render settings
+scene.render.image_settings.file_format = 'PNG'
+filepath = ("~/Desktop/output{}.png".format((str)(datetime.datetime.now().isoformat())))
+scene.render.filepath = os.path.expanduser(filepath)
+scene.camera = bpy.context.object
+bpy.ops.render.render(write_still = 1)
+            </code></pre>
+        </div>
+        <div class="col-12">
+            <h3>Create menu item in 3D Viewport's Header Region</h3>
+            <p><em><a href="https://docs.blender.org/api/current/bpy.types.Menu.html">Reference</a></em></p>
+            <p><em><a href="https://docs.blender.org/manual/en/latest/editors/index.html">List of all available editors to adapt</a></em></p>
+            <p>The following script will create a button in the 3D VIEWFINDER TOP ROW OF BUTTONS (e.g. view, select,add,object etc.)</p>
+            <pre><code>
+class VIEW3D_MT_menu(bpy.types.Menu):
+    bl_label = "TITLE OF BUTTON"
+
+    def draw(self, context):
+        self.layout.operator("COMMAND TO RUN")
+        # Example Command "mesh.primitive_monkey_add"
+    memnu
+    
+def addmenu_callback(self, context):
+    self.layout.menu("VIEW3D_MT_menu")
+
+def register():
+    bpy.utils.register_class(VIEW3D_MT_menu)
+    bpy.types.VIEW3D_HT_header.append(addmenu_callback)  
+
+def unregister():
+    bpy.types.VIEW3D_HT_header.remove(addmenu_callback)  
+    bpy.utils.unregister_class(VIEW3D_MT_menu)
+
+if __name__ == "__main__":
+    register()
+            </code></pre>
+        </div>
+    </section>
+</body>
+</html>
