@@ -1,0 +1,50 @@
+{
+  "DEFAULT": [
+    "Matt paint white",
+    "Matt paint white",
+    "Concrete",
+    "Random Walnut",
+    "Inox",
+    "Glass"
+  ],
+  "BLACK STEEL": [
+    "Matt paint white",
+    "Matt paint white",
+    "Concrete",
+    "Matt paint black",
+    "Chrome",
+    "Glass"
+  ],
+  "ASHWOOD": [
+    "Matt paint white",
+    "Matt paint white",
+    "Concrete",
+    "Random Ashwood",
+    "Inox",
+    "Glass"
+  ],
+  "WALNUT": [
+    "Matt paint white",
+    "Matt paint white",
+    "Concrete",
+    "Random Walnut",
+    "Inox",
+    "Glass"
+  ],
+  "GANITE GREY": [
+    "Matt paint white",
+    "Matt paint white",
+    "Concrete",
+    "Granite grey",
+    "Inox",
+    "Glass"
+  ],
+  "PINE": [
+    "Matt paint white",
+    "Matt paint white",
+    "Concrete",
+    "Random Pine",
+    "Inox",
+    "Glass"
+  ]
+}

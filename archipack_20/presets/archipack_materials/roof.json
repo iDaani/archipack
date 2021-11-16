@@ -1,0 +1,37 @@
+{
+  "DEFAULT": [
+    "Random Walnut",
+    "Copper",
+    "Random red roof"
+  ],
+  "RANDOM BLACK TILES": [
+    "Random Walnut",
+    "Copper",
+    "Random black roof"
+  ],
+  "RANDOM RED TILES": [
+    "Random Walnut",
+    "Copper",
+    "Random red roof"
+  ],
+  "RANDOM STONE TILES": [
+    "Random Walnut",
+    "Copper",
+    "Random stone roof"
+  ],
+  "STEEL GALVANIZED": [
+    "Random Walnut",
+    "Steel galvanized",
+    "Steel galvanized"
+  ],
+  "RANDOM RED TILES ASHWOOD": [
+    "Random Ashwood",
+    "Copper",
+    "Random red roof"
+  ],
+  "RANDOM RED TILES WALNUT": [
+    "Random Walnut",
+    "Copper",
+    "Random red roof"
+  ]
+}

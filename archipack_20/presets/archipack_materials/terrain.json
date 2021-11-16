@@ -1,0 +1,20 @@
+{
+  "DEFAULT": [
+    "Terrain_soft",
+    "Terrain_soft",
+    "Terrain_soft",
+    "Terrain_soft"
+  ],
+  "SOFT TRANSITIONS": [
+    "Terrain_soft",
+    "Terrain_soft",
+    "Terrain_soft",
+    "Terrain_soft"
+  ],
+  "SHARP": [
+    "Terrain",
+    "Road",
+    "Earthwork",
+    "Areas"
+  ]
+}
